@@ -8,5 +8,8 @@ executable site
   build-depends:    base == 4.*
                   , hakyll
                   , clay
+                  , filepath
+                  , lucid
+                  , text
   ghc-options:      -threaded
   default-language: Haskell2010
