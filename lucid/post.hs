@@ -11,8 +11,5 @@ template :: Html ()
 template =
   article_ $ do
     section_ [class_ "header"] $ do
-      "Posted on $date$"
-      "$if(author)$"
-      "by $author$"
-      "$endif$"
+      "$date$"
     section_ "$body$"

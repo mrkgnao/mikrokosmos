@@ -4,4 +4,7 @@ OBJS = $(patsubst lucid/%.hs, templates/%.html, $(SRCS))
 templates/%.html: lucid/%.hs
 	runghc $< > $@
 
-all: $(OBJS)
+index.html: index.hs
+	runghc $< > $@
+
+all: $(OBJS) index.html
