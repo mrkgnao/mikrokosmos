@@ -8,10 +8,8 @@ main :: IO ()
 main = T.putStrLn (renderText template)
 
 template :: Html ()
-template = ul_ $ do
+template = do
   "$for(posts)$"
-  li_ $ do
-    a_ [href_ "$url$"] "$title$"
-    " - "
-    "$date$"
+  div_ [class_ "post-link__title"] $ a_ [href_ "$url$"] "$title$"
+  div_ [class_ "post-link__date"] "$date$"
   "$endfor$"

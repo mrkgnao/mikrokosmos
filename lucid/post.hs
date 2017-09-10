@@ -10,6 +10,7 @@ main = T.putStrLn (renderText template)
 template :: Html ()
 template =
   article_ $ do
-    section_ [class_ "header"] $ do
-      "$date$"
+    div_ [class_ "post-header"] $ do
+      div_ [class_ "post-header__date"] "$date$"
+      h1_ [class_ "post-header__title"] "$title$"
     section_ "$body$"

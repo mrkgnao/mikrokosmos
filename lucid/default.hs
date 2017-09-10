@@ -29,6 +29,20 @@ stylesheets =
   where googleFontsLink = 
             "https://fonts.googleapis.com/css?family=" 
          <> "Lato|Merriweather"
+         <> "Crimson+Text|Unica+One|"
+         <> "Julius+Sans+One|Monda|"
+         <> "Libre+Baskerville|Libre+Franklin|"
+         <> "Arvo|Lato|"
+         <> "Open+Sans|Work+Sans:300|"
+         <> "Neuton|"
+         <> "Alegreya|Questrial"
+         <> "Open+Sans|Roboto+Condensed|"
+         <> "Rubik|Trirong|"
+         <> "Cormorant+Garamond|Proza+Libre|"
+         <> "Istok+Web|Lora|"
+         <> "Archivo+Black|Tenor+Sans|"
+         <> "Roboto Mono|"
+         <> "Cardo|Pathway+Gothic+One|"
 
 blank_ :: Monad m => HtmlT m ()
 blank_ = pure ()
@@ -58,7 +72,7 @@ template = do
     head_ $ do
       headMeta
       stylesheets
-      -- mathjax
+      mathjax
 
     body_ $ do
       header_ $ do 
@@ -66,15 +80,18 @@ template = do
           a_ [href_ "/"] "Mikrokosmos"
         nav_ navbarContents
 
-
-      aside_ $ do 
-        "aside"
+      -- aside_ $ do 
+      --   "aside"
 
       main_ [role_ "main"] $ do 
         "$body$"
 
       footer_ $ do
-        "Built with Hakyll."
+        a_ [href_ "/colophon"] "Colophon"
+        " / "
+        a_ [href_ "/colophon"] "Contact"
+        " / "
+        a_ [href_ "/colophon"] "Source"
 
 navbarContents :: Html ()
 navbarContents =

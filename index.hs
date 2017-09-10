@@ -14,22 +14,27 @@ template :: Html ()
 template = do
   hakyllTitle "Soham Chowdhury"
   title_ "Mikrokosmos"
-  p_ intro
+  intro
 
-  h2_ "Essays"
+  h2_ [class_ "post-list__header"] "Essays"
   hakyllPartial "templates/post-list.html"
 
+  -- h2_ [class_ "post-list__header"] "Around the web"
+  -- hakyllPartial "templates/post-list.html"
+
 intro :: Html ()
-intro = do
-  "Hi! I'm Soham Chowdhury, a student of mathematics \
-  learning to coherently speak \
-  algebraic number theory and (eventually) arithmetic geometry. "
+intro = div_ [class_ "intro"] $ do
+  p_ [class_ "intro__para"] $ do
+    "Hi! I'm Soham Chowdhury, a student of mathematics "
+    "learning to coherently speak "
+    "algebraic number theory and (eventually) arithmetic geometry."
   br_ []
-  br_ []
-  "I'm also a functional programmer and advocate of \
-  expressive type systems, an amateur \
-  musician with an interest in harmony and composition, \
-  and an enthusiast of unexplained analogies and the endless unfamiliar." 
+  p_ [class_ "intro__para"] $ do
+    "I'm also a functional programmer and advocate for "
+    "expressive type systems; a self-taught guitarist and "
+    "musician interested in counterpoint and jazz harmony; "
+    "and an enthusiast of unexplained analogies and "
+    "the endless unfamiliar." 
   
 
 hakyllPartial :: Text -> Html ()
