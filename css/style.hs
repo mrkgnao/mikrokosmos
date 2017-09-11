@@ -115,6 +115,22 @@ myStylesheet = do
       fontSize (px 16)
       lineHeight (em 1.3)
 
+  "div.figure" ? do
+    smallScreen $ do
+       marginLeft (pct (-13))
+       marginRight (pct (-11))
+
+    mediumScreen $ do
+       marginLeft (pct (-33))
+       marginRight (pct (-29))
+
+    bigScreen $ do
+       marginLeft (pct (-42))
+       marginRight (pct (-35))
+
+  img ? do
+    width (pct 100)
+
 -- padCols :: Css
 -- padCols = do
 --   paddingLeft (pct 11.111)
