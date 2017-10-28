@@ -132,7 +132,7 @@ myStylesheet = do
   be "post-header" "title" ? do
     fontSize (px 32)
     marginTop (em 0)
-    marginBottom (em 2)
+    -- marginBottom (em 2)
     paddingBottom (px 4)
     borderBottom solid (px 2) black
 
@@ -299,6 +299,7 @@ sheader = header ? do
     fontSize (px 16)
     sym2 margin (rem 1) (em 0)
     sym2 padding (rem 0) (em 0)
+
     a ? do
       let fg = white
       let bg = linkCol
@@ -311,9 +312,6 @@ sheader = header ? do
 
       border solid (px 2) fg
 
-      sym2 padding (px 4) (px 30)
-      sym2 margin (px 0) (px (-25))
-
       let colors = color fg
       mapM_ (& colors) [link, visited, focus]
 
@@ -321,6 +319,26 @@ sheader = header ? do
         color bg
         backgroundColor fg
         border solid (px 2) bg
+
+  h3 ? a ? do 
+    sym2 padding (px 4) (px 30)
+    sym2 margin (px 0) (px (-25))
+
+  mediumScreen <> bigScreen $ do
+    h4 ? a ? do
+      sym2 padding (px 4) (px 30)
+      sym2 margin (px 0) (px (-25))
+
+  smallScreen $ do
+    nav ? do
+      sym2 margin (em 1) auto
+      textAlign (alignSide sideRight)
+      h4 ? do
+        display inline
+        -- sym2 padding (em 1) (em 1)
+        sym2 margin (em 1) (px 3)
+        a ? sym padding (px 5)
+      -- sym2 margin (px 0) (px (-25))
 
   h3 ? do
     -- bigScreen $ float floatLeft

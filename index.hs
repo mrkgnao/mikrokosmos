@@ -27,7 +27,7 @@ template = do
   h2_ [class_ "post-list__header"] "Notes and short proofs of concept"
   otherCode
 
-  h2_ [class_ "post-list__header"] "Explainers found around the web"
+  h2_ [class_ "post-list__header"] "Greatest hits from around the web"
   links
 
 intro :: Html ()
@@ -45,8 +45,15 @@ intro = div_ [class_ "intro"] $ do
     " and "
     a_ [href_ "/things-i-like#writing"] "writing"
     "; "
-    "and an enthusiast of unexplained analogies and "
-    "the endless unfamiliar." 
+    "and an enthusiast for unexplained analogies in and around mathematics."
+    
+  p_ [class_ "intro__para"] $ do
+    "I'm interested "
+    "in and like discussing a variety of things, "
+    "including literature, music (theory), "
+    "physics, philosophy, "
+    "and cognitive science." 
+
   p_ [class_ "intro__para"] $ do
     "This is my personal site, named after "
     "the "

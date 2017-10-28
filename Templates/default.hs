@@ -28,8 +28,7 @@ stylesheets =
     ]
   where googleFontsLink = 
             "https://fonts.googleapis.com/css?family=" 
-         <> "Rubik|"
-         <> "Roboto+Mono|Roboto|Oxygen+Mono|"
+         <> "Rubik|Roboto+Mono|Roboto|"
 
 blank_ :: Monad m => HtmlT m ()
 blank_ = pure ()
@@ -71,12 +70,10 @@ template = do
           "Being the homepage of one Soham Chowdhury: "
           "number theorist-in-training, "
           "functional programmer, "
-          "and musical almost-omnivore interested "
-          "in physics, philosophy, and "
-          "programming-language theory."
+          "and almost-omnivorous consumer of music "
+          "and science."
 
-
-        navbarContents
+        nav_ navbarContents
 
       main_ [role_ "main"] $ do 
         "$body$"
@@ -86,15 +83,12 @@ template = do
         " / "
         a_ [href_ "https://github.com/mrkgnao/mikrokosmos"] "Source"
         " / "
-        "Licensed "
         a_ [href_ "https://creativecommons.org/licenses/by-nc-nd/4.0/"] "CC BY-NC-ND 4.0"
 
 navbarContents :: Html ()
 navbarContents = do
-    h4_ (a_ [href_ "/about"] "Projects")
-    h4_ (a_ [href_ "/about"] "Music")
-    br_ []
-    h4_ (a_ [href_ "/about"] "Archives")
+    h4_ (a_ [href_ "https://github.com/mrkgnao"] "Projects")
+    h4_ (a_ [href_ "/things-i-like#music"] "Music")
     h4_ (a_ [href_ "/about"] "About")
 
 main :: IO ()
