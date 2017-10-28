@@ -1,10 +1,10 @@
-name:               imagined-saviors
+name:               mikrokosmos
 version:            0.1.0.0
 build-type:         Simple
-cabal-version:      >= 1.10
+cabal-version:      >= 2.0.0.0
 
-executable site
-  main-is:          site.hs
+executable mikrokosmos
+  main-is:          src/Site.hs
   build-depends:    base == 4.*
                   , hakyll
                   , clay

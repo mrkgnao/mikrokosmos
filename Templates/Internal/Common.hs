@@ -13,10 +13,16 @@ module Templates.Internal.Common
   , hif
   , hfor
   -- type-of-html
-  , h2'
   , a'
   , div'
+  , h1'
+  , h2'
+  , h3'
+  , h4'
+  , h1C
   , h2C
+  , h3C
+  , h4C
   , divC
   ) where
 
@@ -73,11 +79,19 @@ hif var trueBody
 -- type-of-html utilities
 --------------------------------------------------------------------------------
 
-h2' = h2_A
-div' = div_A
 a' = a_A
+div' = div_A
+
+h1' = h1_A
+h2' = h2_A
+h3' = h3_A
+h4' = h4_A
 
 withClass f k b = f (class_ k) b
 
+h1C = withClass h1'
 h2C = withClass h2'
+h3C = withClass h3'
+h4C = withClass h4'
+
 divC = withClass div'

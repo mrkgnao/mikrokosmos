@@ -1,16 +1,16 @@
-{-# LANGUAGE OverloadedStrings #-}
-module Main (main) where
+module Templates.Post where
 
-import Lucid
-import qualified Data.Text.Lazy.IO as T
+import Templates.Internal.Common
 
 main :: IO ()
-main = T.putStrLn (renderText template)
+main = defaultMain template
 
-template :: Html ()
-template =
-  article_ $ do
-    div_ [class_ "post-header"] $ do
-      div_ [class_ "post-header__date"] "$date$"
-      h1_ [class_ "post-header__title"] "$title$"
-    section_ "$body$"
+-- | Post/draft template.
+template = article_
+  ( divC
+      "post-header"
+      ( divC "post-header__date"  (hdol "date")
+      ! h1C  "post-header__title" (hdol "title")
+      )
+  ! section_ (hdol "body")
+  )
