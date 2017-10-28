@@ -20,13 +20,20 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
-    match (fromList ["about.rst", "contact.markdown"]) $ do
+    match (fromList ["about.md", "things-i-like.md", "contact.markdown"]) $ do
         route   $ cleanRoute
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
     match "posts/**" $ do
+        route cleanRoute
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/post.html"    postCtx
+            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= relativizeUrls
+
+    match "drafts/**" $ do
         route cleanRoute
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
@@ -40,10 +47,13 @@ main = hakyll $ do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
+            let skipIfEmpty d t = if null d then mempty else listField t postCtx (pure d)
             posts <- loadAll "posts/*" >>= recentFirst
+            drafts <- loadAll "drafts/*" >>= recentFirst
             let archiveCtx =
-                    listField "posts" postCtx (return posts) <>
-                    constField "title" "Archives"            <>
+                    skipIfEmpty posts "posts" <>
+                    skipIfEmpty drafts "drafts" <>
+                    constField "title" "Archives" <>
                     defaultContext
 
             makeItem ""
@@ -55,9 +65,12 @@ main = hakyll $ do
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll ("posts/*" .&&. hasNoVersion)
+            let skipIfEmpty d t = if null d then mempty else listField t postCtx (pure d)
+            posts <- loadAll "posts/*" >>= recentFirst
+            drafts <- loadAll "drafts/*" >>= recentFirst
             let indexCtx =
-                    listField "posts" postCtx (return posts) <>
+                    skipIfEmpty posts "posts" <>
+                    skipIfEmpty drafts "drafts" <>
                     constField "title" "Home"                <>
                     defaultContext
 

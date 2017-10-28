@@ -28,21 +28,8 @@ stylesheets =
     ]
   where googleFontsLink = 
             "https://fonts.googleapis.com/css?family=" 
-         <> "Lato|Merriweather"
-         <> "Crimson+Text|Unica+One|"
-         <> "Julius+Sans+One|Monda|"
-         <> "Libre+Baskerville|Libre+Franklin|"
-         <> "Arvo|Lato|"
-         <> "Open+Sans|Work+Sans:300|"
-         <> "Neuton|"
-         <> "Alegreya|Questrial"
-         <> "Open+Sans|Roboto+Condensed|"
-         <> "Rubik|Trirong|"
-         <> "Cormorant+Garamond|Proza+Libre|"
-         <> "Istok+Web|Lora|"
-         <> "Archivo+Black|Tenor+Sans|"
-         <> "Roboto Mono|"
-         <> "Cardo|Pathway+Gothic+One|"
+         <> "Rubik|"
+         <> "Roboto+Mono|Roboto|Oxygen+Mono|"
 
 blank_ :: Monad m => HtmlT m ()
 blank_ = pure ()
@@ -62,7 +49,8 @@ mathjax = do
     ,"  \"HTML-CSS\": {"
     ,"    styles: {\".MathJax_Preview\": {visibility: \"hidden\"}}"
     ,"  }"
-    ,"});"]
+    ,"});"
+    ]
   async_javascript_ [src_ "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"] blank_
 
 template :: Html ()
@@ -76,30 +64,38 @@ template = do
 
     body_ $ do
       header_ $ do 
-        h4_ $
+        h3_ $ do
           a_ [href_ "/"] "Mikrokosmos"
-        nav_ navbarContents
 
-      -- aside_ $ do 
-      --   "aside"
+        p_ $ do
+          "Being the homepage of one Soham Chowdhury: "
+          "number theorist-in-training, "
+          "functional programmer, "
+          "and musical almost-omnivore interested "
+          "in physics, philosophy, and "
+          "programming-language theory."
+
+
+        navbarContents
 
       main_ [role_ "main"] $ do 
         "$body$"
 
-      footer_ $ do
-        a_ [href_ "/colophon"] "Colophon"
+      footer_ [class_ "page-footer"] $ do
+        a_ [href_ "https://twitter.com/mrkgnaow"] "Twitter"
         " / "
-        a_ [href_ "/colophon"] "Contact"
+        a_ [href_ "https://github.com/mrkgnao/mikrokosmos"] "Source"
         " / "
-        a_ [href_ "/colophon"] "Source"
+        "Licensed "
+        a_ [href_ "https://creativecommons.org/licenses/by-nc-nd/4.0/"] "CC BY-NC-ND 4.0"
 
 navbarContents :: Html ()
-navbarContents =
-  ul_ $ do
-    li_ (a_ [href_ "/about"] "Math")
-    li_ (a_ [href_ "/about"] "Music")
-    li_ (a_ [href_ "/about"] "Code")
-    li_ (a_ [href_ "/about"] "About")
+navbarContents = do
+    h4_ (a_ [href_ "/about"] "Projects")
+    h4_ (a_ [href_ "/about"] "Music")
+    br_ []
+    h4_ (a_ [href_ "/about"] "Archives")
+    h4_ (a_ [href_ "/about"] "About")
 
 main :: IO ()
 main = T.putStrLn (renderText template)

@@ -1,1 +1,1 @@
-$for(posts)$<div class="post-link__title"><a href="$url$">$title$</a></div><div class="post-link__date">$date$</div>$endfor$
+$if(posts)$<h2 class="post-list__header">Articles</h2>$for(posts)$<div class="post-link__title"><a href="$url$">$title$</a></div><div class="post-link__date">$date$</div>$endfor$$else$$endif$$if(drafts)$<h2 class="post-list__header">Drafts</h2>$for(drafts)$<div class="post-link__title"><a href="$url$">$title$</a></div><div class="post-link__date">$date$</div>$endfor$$else$$endif$

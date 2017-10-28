@@ -35,6 +35,8 @@ It is *versatile*: a running example will be the usefulness of categorical abstr
 
 And, like all good mathematics, it lends itself to *clarifying* existing ideas beautifully in a way that is useful for both the student (who can build on existing knowledge to understand new ideas) and the expert (who can draw analogies between seemingly unrelated concepts).
 
+----
+
 The definitions themselves are often "childish", as Grothendieck put it. The idea of category is slightly similar to that of a *graph*, but a closer analogy might be to a transit map for a subway system. There are stations, and a bunch of ways to go from one to another, and (as long as you're not pressed for time) these paths from one place to another are the same in that you'll eventually get there. A category is defined similarly: there are things, and ways to move between them. Formally, a category \\(\\rc\\) is given by
 
 1. a collection \\(\\ob \\rc\\) of *objects*
@@ -45,7 +47,6 @@ which satisfy the following:
 
 4. for all \\(X\\in\\ob\\rc\\), there is a unique two-sided identity in \\(\\cmoc X X\\) for the composition map
 5. for all \\(X,Y,Z\\), the composition map is *associative*
-
 
 For elements \\(X \in \ob\rc\\), we will usually write \\(X \in \rc\\). \\(\\cmor \\rc X Y\\) may also be denoted \\(\\mor \\rc X Y\\) to ease the notational burden when working with multiple categories. Elements \\(f \\in \\moc X Y\\) will usually be denoted \\(f : X \\to Y\\), suppressing any reference to \\(\\rc\\). For \\(f:X\\to Y\\), \\(X\\) is the *source* and \\(Y\\) is the *target* of \\(f\\).
 
