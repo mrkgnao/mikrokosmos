@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings, CPP, FlexibleContexts #-}
-module Main (main) where
+module Index where
 
 import Lucid
 import Data.Text.Lazy (Text)
@@ -22,7 +22,7 @@ template = do
   h2_ [class_ "post-list__header"] "Projects"
   projects
   
-  hakyllPartial "templates/post-list.html"
+  hakyllPartial "templates/PostList.html"
 
   h2_ [class_ "post-list__header"] "Notes and short proofs of concept"
   otherCode

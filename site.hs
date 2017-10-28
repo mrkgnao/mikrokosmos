@@ -23,21 +23,21 @@ main = hakyll $ do
     match (fromList ["about.md", "things-i-like.md", "contact.markdown"]) $ do
         route   $ cleanRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= loadAndApplyTemplate "templates/Default.html" defaultContext
             >>= relativizeUrls
 
     match "posts/**" $ do
         route cleanRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= loadAndApplyTemplate "templates/Post.html"    postCtx
+            >>= loadAndApplyTemplate "templates/Default.html" postCtx
             >>= relativizeUrls
 
     match "drafts/**" $ do
         route cleanRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= loadAndApplyTemplate "templates/Post.html"    postCtx
+            >>= loadAndApplyTemplate "templates/Default.html" postCtx
             >>= relativizeUrls
 
     -- match "posts/*" $ version "raw" $ do
@@ -57,8 +57,8 @@ main = hakyll $ do
                     defaultContext
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
+                >>= loadAndApplyTemplate "templates/Archive.html" archiveCtx
+                >>= loadAndApplyTemplate "templates/Default.html" archiveCtx
                 >>= relativizeUrls
 
 
@@ -71,12 +71,12 @@ main = hakyll $ do
             let indexCtx =
                     skipIfEmpty posts "posts" <>
                     skipIfEmpty drafts "drafts" <>
-                    constField "title" "Home"                <>
+                    constField "title" "Home" <>
                     defaultContext
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" postCtx
+                >>= loadAndApplyTemplate "templates/Default.html" postCtx
                 >>= relativizeUrls
                 >>= cleanIndexUrls
                 >>= cleanIndexHtmls

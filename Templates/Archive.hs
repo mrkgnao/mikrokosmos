@@ -11,5 +11,5 @@ main = T.putStrLn (renderText template)
 template :: Html ()
 template = do
   "Here you can find all my previous posts!"
-  toHtmlRaw ("$partial(\"templates/post-list.html\")$" :: Text)
+  toHtmlRaw ("$partial(\"templates/PostList.html\")$" :: Text)
 

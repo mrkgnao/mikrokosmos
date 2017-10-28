@@ -1,10 +1,10 @@
-SRCS = $(wildcard lucid/*.hs)
-OBJS = $(patsubst lucid/%.hs, templates/%.html, $(SRCS))
+SRCS = $(wildcard Templates/*.hs)
+OBJS = $(patsubst Templates/%.hs, templates/%.html, $(SRCS))
 
-templates/%.html: lucid/%.hs
+templates/%.html: Templates/%.hs
 	runghc $< > $@
 
-index.html: index.hs
+index.html: Templates/Index.hs
 	runghc $< > $@
 
 all: $(OBJS) index.html
