@@ -38,7 +38,7 @@ intro = div_ [class_ "intro"] $ do
     "algebraic number theory and (eventually) arithmetic geometry."
   p_ [class_ "intro__para"] $ do
     "I'm also a functional programmer interested in programming-language "
-    "theory and expressive type systems, a self-taught guitarist and "
+    "theory and expressive type systems; a self-taught guitarist and "
     "musician interested in counterpoint and functional harmony; a "
     "fan of a lot of "
     a_ [href_ "/things-i-like#music"] "music"
