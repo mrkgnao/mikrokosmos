@@ -70,8 +70,7 @@ template = do
           "Being the homepage of one Soham Chowdhury: "
           "number theorist-in-training, "
           "functional programmer, "
-          "and almost-omnivorous consumer of music "
-          "and science."
+          "and almost-omnivorous consumer of music."
 
         nav_ navbarContents
 

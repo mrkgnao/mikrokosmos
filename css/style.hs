@@ -132,7 +132,7 @@ myStylesheet = do
   be "post-header" "title" ? do
     fontSize (px 32)
     marginTop (em 0)
-    -- marginBottom (em 2)
+    marginBottom (em 1)
     paddingBottom (px 4)
     borderBottom solid (px 2) black
 
@@ -155,11 +155,13 @@ myStylesheet = do
     marginBottom (em 0.5)
 
   blockquote ? do
-    fontStyle italic
+    -- fontStyle italic
     bigScreen $ paddingLeft (pct 20)
     smallScreen $ do
       fontSize (px 16)
       lineHeight (em 1.3)
+    marginTop (em 1)
+    marginBottom (em 1)
 
   "div.figure" ? do
     smallScreen $ do
@@ -174,8 +176,12 @@ myStylesheet = do
        marginLeft (pct (-33))
        marginRight (pct (-29))
 
-  img ? do
-    width (pct 100)
+  -- "img.inline-math" ? do
+    -- height (em 1)
+    -- width auto
+    --
+  "img.display-math" ? do
+    textAlign center
 
 -- padCols :: Css
 -- padCols = do
