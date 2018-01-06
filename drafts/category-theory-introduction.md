@@ -22,35 +22,63 @@ And, like a lot of good mathematics, it lends itself to *clarifying* existing id
 
 ----
 
-The definitions themselves are often "childish", as Grothendieck put it. The idea of category is slightly similar to that of a *graph*, but a closer analogy might be to a transit map for a subway system. There are stations, and a bunch of ways to go from one to another, and (as long as you're not pressed for time) these paths from one place to another are the same in that you'll eventually get there. A category is defined similarly: there are things, and ways to move between them. Formally, a category $\rc$ is given by
+The definitions themselves are often "childish", as Grothendieck put it. The idea of category is slightly similar to that of a *graph*, but a closer analogy might be to a transit map for a subway system. There are stations, and a bunch of ways to go from one to another, and (as long as you're not pressed for time) these paths from one place to another are the same in that you'll eventually get there. A category is defined similarly: there are things, and ways to move between them. 
+
+## The *data* of a category
+
+Formally, a category $\rc$ is given by
 
 1. a collection $\ob \rc$ of *objects*
 2. for $X, Y \in \ob\rc$, a collection $\cmor \rc X Y$ of *morphisms* from $X$ to $Y$
-3. for $X, Y, Z \in \ob\rc$, a *composition* map $\cmoc X Y \times \cmoc Y Z \to \cmoc X Z$
+3. for $X, Y, Z \in \ob\rc$, a *composition* map $$\triangleright : \cmoc X Y \times \cmoc Y Z \to \cmoc X Z$$
 
 which satisfy the following:
 
-4. for all $X\in\ob\rc$, there is a unique two-sided identity in $\cmoc X X$ for the composition map
-5. for all $X,Y,Z$, the composition map is *associative*
+4. "identity morphisms" exist: for all $X\in\ob\rc$, there is a unique two-sided identity $\id X$ in $\cmoc X X$ for the composition map.
 
-For elements $X \in \ob\rc$, we will usually write $X \in \rc$. $\cmor \rc X Y$ may also be denoted $\mor \rc X Y$ to ease the notational burden when working with multiple categories. Elements $f \in \moc X Y$ will usually be denoted $f : X \to Y$, suppressing any reference to $\rc$. For $f:X\to Y$, $X$ is the *source* and $Y$ is the *target* of $f$.
+$$
+\xymatrix{
+  L \ar@/^2pc/[rr] ^ {f \triangleright \id X} 
+    \ar[rr] ^ f 
+& {}
+& A \ar@/^2pc/[rr] ^ {\id X \triangleright g} 
+    \ar[rr] ^ g
+& {}
+& R 
+}
+$$
+
+5. for all $X,Y,Z$, the composition map is *associative*:
+
+$$
+\xymatrix{
+  A \ar@/_2pc/[rr] _ {f \triangleright g} 
+    \ar[r] ^ f 
+& B \ar[r] ^ g 
+    \ar@/^2pc/[rr] ^ {g \triangleright h}
+& C \ar[r] ^ h & D
+}
+$$
+
+## Notation and terminology
+
+For elements $X \in \ob\rc$, we will usually write $X \in \rc$ or $X : \rc$. 
+
+$\cmor \rc X Y$ may also be denoted $\mor \rc X Y$ to ease the notational burden when working with multiple categories. 
+
+Elements $f \in \moc X Y$ will usually be denoted $f : X \to Y$, suppressing any reference to $\rc$. 
+
+For $f:X\to Y$, $X$ is the *source* (or *domain*) and $Y$ is the *target* (or *codomain*) of $f$.
 
 The composition of $f : X \to Y$ and $g : Y \to Z$ will generally be written in *diagrammatic* order: the morphism  $g \circ f$ will be written $f \triangleright g : X \to Z$ (or even $fg$). The $\triangleright$ operator signifies the composition map in property (3), and its use is meant to guide the eye along the "flow" of the morphisms. With these things cleared up, we can complete the definition of category.
 
-An *identity morphism* is a map $\id A : A \to A$ that acts as a *two-sided identity* under composition. That is, given $ f : X \to Y $ and $g:Y\to X$, 
+An *identity morphism* is a map $\id A : A \to A$ that acts as a *two-sided identity* under composition. That is, given $f : X \to Y$ and $g:Y\to X$, 
 
-\[ \begin{align}
-\id X&\trr f &= f\\
-g &\trr \id X &= g
-\end{align}\]
+$$\id X \trr f = f$$
+$$g  \trr \id X = g$$
 
 Morphisms satisfying the first property are *left identities for composition*, and those satisfying the second are *right identities*, whence the phrase *two-sided identity*. (One-sided identities will be useful later, and the notion is a useful one to understand.) Usually, an identity morphism for $X$ is one that does "nothing", often sending each piece of $X$ to itself.
 
-$$\begin{tikzcd}
-    K \arrow[r, hook] & L \\
-    A \arrow[u] \arrow[r] & B \arrow[u]
-  \end{tikzcd}
-$$
 
 *Associativity* for $\trr$ is the property that 
 
@@ -63,9 +91,9 @@ The phrase "suitable choice" above is one of the first of many examples of handw
 $$ \trr : \moc X Y \times \moc Y Z \to \moc X Z$$
 
 and, in this case, unsuitable choices are those where the definition of
-composition does not let us form $ f \trr g $. One possible such choice is $ f
-: X \to Y, g : X \to Y $: here $ f\trr g$ is meaningless, since the target of
-$f$ does not match the source of $g$. For composition to be associative, all
+composition does not let us form $f \trr g$. One possible such choice is $f : X
+\to Y, g : X \to Y$: here $f\trr g$ is meaningless, since the target of $f$
+does not match the source of $g$. For composition to be associative, all
 choices of $f,g,h$ for which composition can be performed should satisfy the
 property given above.
 
@@ -74,7 +102,7 @@ property given above.
 The category of sets, denoted $\set$, is defined by setting $\ob \set$ to be
 the collection of all sets, and $\mor\set X Y$ to be the collection of
 functions $f : X \to Y$. Composition is then the familiar composition of
-functions: $ (f \trr g)(x) = g(f(x)) $.
+functions: $(f \trr g)(x) = g(f(x))$.
 
 The category of Haskell types, denoted ${\sf Hask}$, has Haskell types as
 objects (e.g. `Int`, `Text`, `IO (Maybe a)`) and functions `a -> b` as
@@ -99,3 +127,16 @@ id x = x
 
 which is a polymorphic function that works for any `a`.
 
+## Adjunctions
+
+Consider two categories $\rc$ and $\sf D$, with objects $c, c' : \sf C$ and $d,
+d' : \sf D$ respectively. Suppose that there exist two functors
+
+$$\xymatrix{
+{\sf C} \ar@/_1pc/[r] _ {\sf G} & {\sf D} \ar@/_1pc/[l] _ {\sf F}
+}$$
+
+We then have two bifunctors
+
+$${\sf C}(F-, -) : \sf D^{op} \times \sf C \to \sf{Set}$$
+$${\sf D}(-, G-) : \sf D^{op} \times \sf C \to \sf{Set}$$

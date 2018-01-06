@@ -39,3 +39,5 @@ trirong           = serifFont "Trirong"
 
 robotoMono        = monospaceFont "Roboto Mono"
 oxygenMono        = monospaceFont "Oxygen Mono"
+
+iosevka = monospaceFont "Iosevka"

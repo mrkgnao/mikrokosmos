@@ -1,20 +1,20 @@
 let
+  compiler = "ghc822";
   config = {
     packageOverrides = pkgs: rec {
-      haskellPackages = pkgs.haskellPackages.override {
-        overrides = 
-          haskellPackagesNew: 
-          haskellPackagesOld: 
-          rec {
-            imagined-saviors =
-              haskellPackagesNew.callPackage ./default.nix { };
+      haskell = pkgs.haskell // {
+        packages = pkgs.haskell.packages // {
+          "${compiler}" = pkgs.haskell.packages."${compiler}".override {
+            overrides = haskellPackagesNew: haskellPackagesOld: rec {
+              mikrokosmos = haskellPackagesNew.callPackage ./default.nix { };
+            };
+          };
         };
       };
     };
   };
-
   pkgs = import <nixpkgs> { inherit config; };
 
 in
-  { imagined-saviors = pkgs.haskellPackages.imagined-saviors;
+  { mikrokosmos = pkgs.haskellPackages.mikrokosmos;
   }

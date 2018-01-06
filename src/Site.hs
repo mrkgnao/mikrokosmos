@@ -6,12 +6,14 @@ import           System.FilePath.Posix  (takeBaseName,takeDirectory,(</>))
 import Data.Typeable
 import Data.Binary
 import Hakyll.Contrib.LaTeX
-import Image.LaTeX.Render.Pandoc
-import Image.LaTeX.Render
 import Text.Pandoc.Definition
+import qualified Data.HashMap.Strict as M
+import qualified Data.Text as T
+import Data.Maybe
 
 --------------------------------------------------------------------------------
 imagesDir = "images"
+assetsDir = "assets"
 cssDir = "css"
 postsDir = "posts"
 draftsDir = "drafts"
@@ -40,76 +42,21 @@ cleanRouteWith = routeWith cleanRoute
 idRouteCopy :: Rules ()
 idRouteCopy = idRouteWith copyFileCompiler
 
-pandocFormulaOptions :: PandocFormulaOptions
-pandocFormulaOptions = PandocFormulaOptions
-   { shrinkBy = 4
-   , errorDisplay = displayError
-   , formulaOptions = \case DisplayMath -> displaymath'; _ -> math'
-   }
-
-fromPackageList :: [String] -> String
-fromPackageList = concatMap (\pkg -> "\\usepackage{" <> pkg <> "}")
-
-packageList :: [String]
-packageList = ["amsmath", "amsfonts"]
-
-pkgInv :: String
-pkgInv = (fromPackageList packageList) <> 
-  (  "\\usepackage[euler-digits,euler-hat-accent]{eulervm}"
-  ++ "\\usepackage{palatino}"
-  ++ "\\usepackage{tikz}"
-  ++ "\\usetikzlibrary{cd}"
-
-  ++ "\\newcommand{\\id}[1]{{\\sf id} _ {#1}}"
-  ++ "\\newcommand{\\ob}[1]{{\\sf Ob}\\,#1}"
-  ++ "\\newcommand{\\cmor}[3]{{\\sf Mor} _ {#1}(#2, #3)}"
-  ++ "\\newcommand{\\cmoc}[2]{{\\sf Mor} _ {\\sf C}(#1, #2)}"
-  ++ "\\newcommand{\\mor}[3]{{#1}(#2, #3)}"
-  ++ "\\newcommand{\\moc}[2]{{\\sf C}(#1, #2)}"
-  ++ "\\newcommand{\\trr}{\\triangleright}"
-  ++ "\\newcommand{\\rc}{\\mathsf{C}}"
-  ++ "\\newcommand{\\set}{\\mathsf{Set}}"
-  ++ "\\DeclareFontFamily{OT1}{slmss}{}"
-  ++ "\\DeclareFontShape{OT1}{slmss}{m}{n}"
-  ++ "     {<-8.5> s*[1.0] rm-lmss8"
-  ++ "      <8.5-9.5> s*[1.0] rm-lmss9"
-  ++ "      <9.5-11> s*[1.0] rm-lmss10"
-  ++ "      <11-15.5> s*[1.0] rm-lmss12"
-  ++ "      <15.5-> s*[1.0] rm-lmss17"
-  ++ "     }{}"
-  ++ "\\DeclareSymbolFont{sfoperators}{OT1}{slmss}{m}{n}"
-  ++ "\\DeclareSymbolFontAlphabet{\\mathsf}{sfoperators}"
-  ++ "\\makeatletter"
-  ++ "\\def\\operator@font{\\mathgroup\\symsfoperators}"
-  ++ "\\makeatother"
-  )
-
-defaultInv :: String
-defaultInv = (fromPackageList ["amsmath", "amssymb", "amsfonts"])
-
-displaymath' :: FormulaOptions
-displaymath' = FormulaOptions pkgInv "displaymath" 600
-
--- | Use the @amsmath@ package, the @math@ environment, and 200dpi.
-math' :: FormulaOptions
-math' = FormulaOptions pkgInv "math" 500
-
 main :: IO ()
 main = do
-  renderFormulae <- initFormulaCompilerDataURI 1000 defaultEnv
-  -- let renderFormulae = compileFormulaeDataURI defaultEnv
-  hakyll (site renderFormulae)
+  hakyll site 
 
 -- site :: Rules ()
-site rf = do
+site = do
   matchGlob imagesDir "*"     idRouteCopy
+  matchGlob assetsDir "*"     idRouteCopy
   matchGlob cssDir    "*.css" (idRouteWith compressCssCompiler)
   match "css/*.hs" $ routeWith
     (setExtension "css")
     (getResourceString >>= withItemBody (unixFilter "runghc" []))
   match  staticPat        staticPages
-  match  "posts/**"       (postRules rf)
-  match  "drafts/**"      (postRules rf)
+  match  "posts/**"       postRules
+  match  "drafts/**"      postRules
   create ["archive.html"] archivePage
   match  "index.html"     indexPage
   matchGlob templatesDir "*.html" (compile templateBodyCompiler)
@@ -154,16 +101,20 @@ indexPage = idRouteWith $ do
     >>= cleanIndexHtmls
 
 -- postRules :: Rules ()
-postRules rf = do
+postRules = do
   cleanRouteWith
-    $   pandocCompilerWithTransformM defaultHakyllReaderOptions
-                                     defaultHakyllWriterOptions
-                                     (rf pandocFormulaOptions)
+    $ pandocCompiler
     >>= loadAndApplyTemplate "templates/Post.html"    postCtx
     >>= loadAndApplyTemplate "templates/Default.html" postCtx
     >>= relativizeUrls
 
 --------------------------------------------------------------------------------
+
+-- preambleContext :: Context a
+-- preambleContext = field "preamble" $ \item -> do
+--     metadata <- getMetadata (itemIdentifier item)
+--     return $ fromMaybe "No preamble" $ _ $ M.lookup (T.pack "preamble") metadata
+
 postCtx :: Context String
 postCtx = dateField "date" "%B %e, %Y" <> defaultContext
 
@@ -177,9 +128,9 @@ cleanIndexUrls :: Item String -> Compiler (Item String)
 cleanIndexUrls = return . fmap (withUrls cleanIndex)
 
 cleanIndexHtmls :: Item String -> Compiler (Item String)
-cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
+cleanIndexHtmls = return . fmap (replaceAll pat replacement)
  where
-  pattern     = "/index.html"
+  pat     = "/index.html"
   replacement = const "/"
 
 cleanIndex :: String -> String

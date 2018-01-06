@@ -24,6 +24,7 @@ stylesheets =
   mapM_ stylesheet_ 
     [ "/css/reset.css"
     , "/css/style.css"
+    , "/css/iosevka.css"
     , googleFontsLink
     ]
   where googleFontsLink = 
@@ -78,7 +79,7 @@ template = do
         "$body$"
 
       footer_ [class_ "page-footer"] $ do
-        a_ [href_ "https://twitter.com/mrkgnaow"] "Twitter"
+        a_ [href_ "https://twitter.com/mrkgrnao"] "Twitter"
         " / "
         a_ [href_ "https://github.com/mrkgnao/mikrokosmos"] "Source"
         " / "

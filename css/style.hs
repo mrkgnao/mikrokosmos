@@ -19,10 +19,10 @@ main = putCss myStylesheet
 
 headlineFace, bodyFace :: Css
 (headlineFace, bodyFace) = 
-  (Fonts.rubik, Fonts.roboto)
+  (Fonts.iosevka, Fonts.iosevka)
 
 monospaceFace :: Css
-monospaceFace = Fonts.robotoMono
+monospaceFace = Fonts.iosevka
 
 bem :: Text -> Text -> Text -> Selector
 bem block elem mod = text ("." <> block <> "__" <> elem <> "--" <> mod)
@@ -181,7 +181,11 @@ myStylesheet = do
     -- width auto
     --
   "img.display-math" ? do
-    textAlign center
+    display block
+    -- FIXME: this is to override the margin: 0 from liamoc/latex-formulae
+    "margin" -: "1rem auto !important"
+    maxWidth (pct 100)
+    height auto
 
 -- padCols :: Css
 -- padCols = do
