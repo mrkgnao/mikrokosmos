@@ -28,8 +28,7 @@ stylesheets =
     , googleFontsLink
     ]
   where googleFontsLink = 
-            "https://fonts.googleapis.com/css?family=" 
-         <> "Rubik|Roboto+Mono|Roboto|"
+            "https://fonts.googleapis.com/css?family=Roboto"
 
 blank_ :: Monad m => HtmlT m ()
 blank_ = pure ()
@@ -70,7 +69,7 @@ template = do
         p_ $ do
           "Being the homepage of one Soham Chowdhury: "
           "number theorist-in-training, "
-          "functional programmer, "
+          "programming-language theory enthusiast, "
           "and almost-omnivorous consumer of music."
 
         nav_ navbarContents

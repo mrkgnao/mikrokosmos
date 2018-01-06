@@ -14,12 +14,14 @@ import qualified Clay.Media as M
 main :: IO ()
 main = putCss myStylesheet
 
+ahref = "a[href]"
+
 (~:) :: (a -> b) -> a -> b
 (~:) = ($)
 
 headlineFace, bodyFace :: Css
 (headlineFace, bodyFace) = 
-  (Fonts.iosevka, Fonts.iosevka)
+  (Fonts.roboto, Fonts.roboto)
 
 monospaceFace :: Css
 monospaceFace = Fonts.iosevka
@@ -47,31 +49,35 @@ linkCol :: Color
 linkCol = "#481cd8"
 
 highlightCss :: Css
-highlightCss = ".sourceCode" ? do
-  -- keyword
-  "span.kw" ? do
-     color "#007020" 
-     fontWeight bold
-  -- datatype
-  "span.dt" ? 
-    color "#902000"
-  "span.co" ? do
-    color "#60a0b0" 
-    -- fontStyle italic
-  "span.ot" ? color "#007020"
-  "span.al" ? do
-    color red 
-    fontWeight bold
-  "span.fu" ? color "#06287e"
-  "span.re" ? pure ()
-  "span.dv" ? color "#40a070"
-  "span.bn" ? color "#40a070"
-  "span.fl" ? color "#40a070"
-  "span.ch" ? color "#4070a0"
-  "span.st" ? color "#4070a0"
-  "span.er" ? do
-    color red
-    fontWeight bold
+highlightCss = do
+  ".haskell-eval" ? do
+    backgroundColor "#eaeaef"
+    sym2 padding (em 1) (em 1)
+  ".sourceCode" ? do
+    -- keyword
+    "span.kw" ? do
+       color "#007020" 
+       fontWeight bold
+    -- datatype
+    "span.dt" ? 
+      color "#902000"
+    "span.co" ? do
+      color "#60a0b0" 
+      -- fontStyle italic
+    "span.ot" ? color "#007020"
+    "span.al" ? do
+      color red 
+      fontWeight bold
+    "span.fu" ? color "#06287e"
+    "span.re" ? pure ()
+    "span.dv" ? color "#40a070"
+    "span.bn" ? color "#40a070"
+    "span.fl" ? color "#40a070"
+    "span.ch" ? color "#4070a0"
+    "span.st" ? color "#4070a0"
+    "span.er" ? do
+      color red
+      fontWeight bold
 
 myStylesheet :: Css
 myStylesheet = do
@@ -117,7 +123,7 @@ myStylesheet = do
   ul ? do
     paddingLeft (px 20)
 
-  a ? do
+  ahref ? do
     textDecoration none
     outlineStyle none
     sym2 padding (px 2) (px 2)
@@ -134,7 +140,6 @@ myStylesheet = do
     marginTop (em 0)
     marginBottom (em 1)
     paddingBottom (px 4)
-    borderBottom solid (px 2) black
 
   be "post-header" "date" ? do
     fontSize (px 14)
@@ -299,6 +304,7 @@ sheader = header ? do
     --     border solid (px 2) linkCol
 
   p ? do
+    monospaceFace
     fontSize (px 16)
     width (pct 80)
     maxWidth (px 500)
@@ -307,12 +313,14 @@ sheader = header ? do
 
   h3 <> h4 ? do
     fontSize (px 16)
-    sym2 margin (rem 1) (em 0)
+    sym2 margin (rem 1.1) (em 0)
     sym2 padding (rem 0) (em 0)
 
-    a ? do
-      let fg = white
-      let bg = linkCol
+  h4 ? do
+    monospaceFace
+    ahref ? do
+      let fg = linkCol
+      let bg = white
       color fg
       backgroundColor bg
 
@@ -330,16 +338,37 @@ sheader = header ? do
         backgroundColor fg
         border solid (px 2) bg
 
-  h3 ? a ? do 
-    sym2 padding (px 4) (px 30)
-    sym2 margin (px 0) (px (-25))
+  h3 ? do
+    monospaceFace
+    ahref ? do
+      let fg = white
+      let bg = linkCol
+      color fg
+      backgroundColor bg
+
+      border solid (px 2) fg
+
+      let colors = color fg
+      mapM_ (& colors) [link, visited, focus]
+
+      hover & do
+        color bg
+        backgroundColor fg
+        border solid (px 2) bg
 
   mediumScreen <> bigScreen $ do
-    h4 ? a ? do
+    h3 ? ahref ? do 
+      sym2 padding (px 4) (px 30)
+      sym2 margin (px 0) (px (-25))
+    h4 ? ahref ? do
       sym2 padding (px 4) (px 30)
       sym2 margin (px 0) (px (-25))
 
   smallScreen $ do
+    h3 ? ahref ? do 
+      sym2 padding (px 4) (px 4)
+    h4 ? ahref ? do
+      sym2 margin (px 4) (px 4)
     nav ? do
       sym2 margin (em 1) auto
       textAlign (alignSide sideRight)
@@ -347,33 +376,12 @@ sheader = header ? do
         display inline
         -- sym2 padding (em 1) (em 1)
         sym2 margin (em 1) (px 3)
-        a ? sym padding (px 5)
+        ahref ? sym padding (px 5)
       -- sym2 margin (px 0) (px (-25))
 
   h3 ? do
     -- bigScreen $ float floatLeft
     fontSize (px 24)
-
-  -- nav ? do
-  --   -- sym padding (px 0)
-  --   -- sym margin (px 0)
-  --   do 
-  --     smallScreen (display none)
-  --     mediumScreen (display none)
-  --     bigScreen $ do
-  --       -- marginLeft bigScreenMarginLeft
-  --       headlineFace
-  --       ul ? do
-  --         sym padding (px 0)
-  --         width (pct 60)
-  --         maxWidth (px 600)
-  --         display flex
-  --         justifyContent spaceBetween
-  --         marginTop (em 0)
-  --         li ? do 
-  --           flexAll 0 0 auto
-  --           -- display inline
-  --           listStyleType none
 
 sfooter :: Css
 sfooter = do

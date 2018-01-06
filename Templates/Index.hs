@@ -39,7 +39,7 @@ intro = div_ [class_ "intro"] $ do
   p_ [class_ "intro__para"] $ do
     "I'm also a functional programmer interested in programming-language "
     "theory and expressive type systems; a self-taught guitarist and "
-    "musician interested in counterpoint and functional harmony; a "
+    "musician interested in counterpoint and fugal writing; a "
     "fan of a lot of "
     a_ [href_ "/things-i-like#music"] "music"
     " and "
@@ -55,23 +55,41 @@ intro = div_ [class_ "intro"] $ do
     "and cognitive science." 
 
   p_ [class_ "intro__para"] $ do
-    "This is my personal site, named after "
+    "This is my personal site and blog, named after "
     "the "
     a_ [href_ "https://en.wikipedia.org/wiki/Mikrokosmos_(Bart%C3%B3k)"] 
        "Béla Bartók work"
     "."
 
 projects :: Html ()
-projects = div_ $ do
-  mapM_ mkLink $ 
-    [ ( "sound-and-complete"
+projects = div_ $ 
+  mapM_ mkLink 
+    [ ("preposterous"
+      , "https://github.com/mrkgnao/preposterous"
+      , do
+          "A work-in-progress implementation of the "
+          "OutsideIn(X) "
+          "type inference engine of "
+          a_ [href_ "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.167.4165"] 
+             "Vytinotis, Peyton Jones, Schrijvers, Sulzmann (2010)"
+          ", used in the Glasgow Haskell Compiler."
+      )
+    , ( "sound-and-complete"
       , "https://github.com/mrkgnao/sound-and-complete"
       , do
-          "A work-in-progress implementation of the \"Sound and Complete\" "
+          "A near-complete implementation of the "
+          "Sound and Complete "
           "type system from " 
           a_ [href_ "https://arxiv.org/abs/1601.05106"] "Dunfield and Krishnaswami (2016)"
           ", "
-          "which describes a minimal ML-like language with GADTs."
+          "which describes a minimal ML-like language with GADTs, existential types, "
+          "and coverage-checked pattern-matching."
+      )
+    , ("rien"
+      , "https://github.com/mrkgnao/rien"
+      , do
+        "A set of Nix scripts for reproducible, predictable Haskell development environments "
+        "supporting custom package-sets and native dependencies."
       )
     , ( "noether"
       , "https://github.com/mrkgnao/noether"

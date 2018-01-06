@@ -30,6 +30,8 @@ in
       latex-formulae-pandoc
       pandoc-types
       unordered-containers
+      hint
+      pandoc
 
       bound
       deriving-compat
